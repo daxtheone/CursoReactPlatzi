@@ -1,0 +1,6 @@
+{
+    "presets": [
+        "@babel/preset-env", // para los ecmas
+        "@babel/preset-react" // para react
+    ]
+}

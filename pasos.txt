@@ -1,0 +1,190 @@
+1 => Git Init
+2 => npm init -y 
+    La 'y' singnifica que va a preconfigurar el documento
+
+3 => Creamos la estructura
+    3.1 =>  /src
+    3.2 =>  /public
+    3.3 => Dentro de src creamos /components
+    3.4 => Dentro de src creamos index.js (Entrada al proyecto)
+    3.5 => Dentro de public crear index.html
+
+4 => Instalamos react y react-dom
+    npm install react react-dom
+    
+5 => podemos crear nuestro primer componenente de prueba
+    ./components/HelloWorld
+
+        import React from 'react'
+        const HelloWorld = () => {
+            <h1>Hola Mundo</h1>
+        }
+        export default HelloWorld
+
+6 => Le damos acceso al sistema en index.js
+    import React from 'react'
+    import ReactDOM from 'react-dom'
+    import HelloWorld from './components/HelloWorld'
+    ReactDOM.render(<HelloWorld/> ,document.getElementById(app))
+
+7 => Accedemos al public/index.html  para crear la estructura html y agregar el div id=app
+
+8 => Instalamos babel  (Para hacer compatible todos los ecma script a todos los navegadores)
+    npm install --save-dev @babel/core @babel/preset-env @babel/preset-react babel-loader
+
+9 => Creamos el archivo .babelrc en la raiz
+    {
+        "presets": [
+            "@babel/preset-env", // para los ecmas
+            "@babel/preset-react" // para react
+        ]
+    }
+
+10 => Instalamos, configuramos y ejecutamos webpack
+    npm install webpack webpack-cli html-webpack-plugin html-loader  --save-dev
+
+    10.1 => creamos el archivo webpack.config.js
+
+        const path = require('path');
+        const HtmlWebPackPlugin = require('html-webpack-plugin');
+
+        module.exports = {
+            entry: './src/index.js',
+            output: {
+                path: path.resolve(__dirname,'dist'),
+                filename: 'bundle.js'
+            },
+            resolve: {
+                extensions: ['.js','.jsx']
+            },
+            module: {
+                rules: [
+                    {
+                        test: /\.(js|jsx)$/,
+                        exclude: /node_modules/,
+                        use: {
+                            loader: "babel-loader"
+                        }
+                    },
+                    {
+                        test: /\.html$/,
+                        use: [
+                            {
+                                loader: 'html-loader'
+                            }
+                        ]
+                    }
+                ]
+            },
+            plugins: [
+                new HtmlWebPackPlugin({
+                    template: './public/index.html',
+                    filename: './index.html'
+                })
+            ]
+        }
+
+
+
+    10.2 => En el archivo package.json agregamos el script
+        "scripts": {
+            "test": "echo \"Error: no test specified\" && exit 1",
+            "build": "webpack --mode production" 
+        },
+
+    10.3 => Ejecutamos en consola 
+        npm run build
+
+    10.4 => Instalamos el server de webpack
+        npm install --save-dev webpack-dev-server
+    
+    10.5 => En package.json 
+        "scripts": {
+            "test": "echo \"Error: no test specified\" && exit 1",
+            "build": "webpack --mode production",
+            "start": "webpack serve --mode development --env development"
+        },
+
+    10.6 => Ejecutamos 
+        npm run start
+
+11 => Vamos a instalar preprocesador SASS
+    npm install --save-dev mini-css-extract-plugin css-loader node-sass sass-loader
+
+    11.1 => En Webpack.config.js añadimos una nueva regla
+
+        const path = require('path');
+        const HtmlWebPackPlugin = require('html-webpack-plugin');
+        const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+        module.exports = {
+            entry: './src/index.js',
+            output: {
+                path: path.resolve(__dirname,'dist'),
+                filename: 'bundle.js'
+            },
+            resolve: {
+                extensions: ['.js','.jsx']
+            },
+            module: {
+                rules: [
+                    {
+                        test: /\.(js|jsx)$/,
+                        exclude: /node_modules/,
+                        use: {
+                            loader: "babel-loader"
+                        }
+                    },
+                    {
+                        test: /\.html$/,
+                        use: [
+                            {
+                                loader: 'html-loader'
+                            }
+                        ]
+                    },
+                    {
+                        test: /\.(s*)css$/,
+                        use: [
+                            {
+                                loader: MiniCssExtractPlugin.loader,
+                            },
+                            'css-loader',
+                            'sass-loader'
+                        ]
+                    }
+                ]
+            },
+            plugins: [
+                new HtmlWebPackPlugin({
+                    template: './public/index.html',
+                    filename: './index.html'
+                }),
+                new MiniCssExtractPlugin({
+                    filename: 'assets/[name].css'
+                })
+            ]
+        }
+    
+    11.2 => En ./src Creamos la carpteta assets y dentro de ella styles
+    11.3 => Creamos App.scss en styles
+        Lo pruebo
+            body {
+                margin: 0;
+                background-color: blueviolet;
+            }
+    11.4 En mi componente hola mundo jsx agrego el import
+        import '../assets/styles/App.scss'
+        npm run start
+
+12 => instalaremos Eslint Herramienta para validar el código y tener un standar
+
+    npm install --save-dev eslint babel-eslint eslint-config-airbnb eslint-plugin-import eslint-plugin-react eslint-plugin-jsx-a11y
+
+    12.1 => Creamos en la raiz el archivo .eslintrc y el contenido lo traemos de =>
+
+    https://gist.githubusercontent.com/gndx/60ae8b1807263e3a55f790ed17c4c57a/raw/0de495fc84df71ce97ef87c37505362f3512e1c3/eslintrc
+
+13 => Creamos el archivo .gitignore
+
+    https://gist.githubusercontent.com/gndx/747a8913d12e96ff8374e2125efde544/raw/2b46b6f7ecb03ebd4fc4eacde5796caf1b752d7d/gitignore
