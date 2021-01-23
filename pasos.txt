@@ -25,7 +25,7 @@
     import React from 'react'
     import ReactDOM from 'react-dom'
     import HelloWorld from './components/HelloWorld'
-    ReactDOM.render(<HelloWorld/> ,document.getElementById(app))
+    ReactDOM.render(<HelloWorld/> ,document.getElementById('app'))
 
 7 => Accedemos al public/index.html  para crear la estructura html y agregar el div id=app
 
@@ -181,6 +181,8 @@
 
     npm install --save-dev eslint babel-eslint eslint-config-airbnb eslint-plugin-import eslint-plugin-react eslint-plugin-jsx-a11y
 
+    npx eslint --init
+
     12.1 => Creamos en la raiz el archivo .eslintrc y el contenido lo traemos de =>
 
     https://gist.githubusercontent.com/gndx/60ae8b1807263e3a55f790ed17c4c57a/raw/0de495fc84df71ce97ef87c37505362f3512e1c3/eslintrc
@@ -188,3 +190,120 @@
 13 => Creamos el archivo .gitignore
 
     https://gist.githubusercontent.com/gndx/747a8913d12e96ff8374e2125efde544/raw/2b46b6f7ecb03ebd4fc4eacde5796caf1b752d7d/gitignore
+
+    git add . ; git commit -m "actualziacion"
+
+
+
+
+14 =>  Ahora a componentizar
+
+
+
+15 => Configuro el nombre de las imagenes y archivos
+
+ npm install file-loader --save-dev
+
+    15.1 => voy al archivo webpack.config
+    const path = require('path');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+module.exports = {
+    entry: './src/index.js',
+    output: {
+        path: path.resolve(__dirname,'dist'),
+        filename: 'bundle.js'
+    },
+    resolve: {
+        extensions: ['.js','.jsx']
+    },
+    module: {
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader"
+                }
+            },
+            {
+                test: /\.html$/,
+                use: [
+                    {
+                        loader: 'html-loader'
+                    }
+                ]
+            },
+            {
+                test: /\.(s*)css$/,
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                    },
+                    'css-loader',
+                    'sass-loader'
+                ]
+            },
+            {  
+              test: /\.(png|gif|jpg|jpeg)/,
+              use:[
+                  {
+                      'loader': 'file-loader',
+                      options: {
+                          name: 'assets/[hash].[ext]'
+                      }
+                  }
+              ]
+            }
+        ]
+    },
+    plugins: [
+        new HtmlWebPackPlugin({
+            template: './public/index.html',
+            filename: './index.html'
+        }),
+        new MiniCssExtractPlugin({
+            filename: 'assets/[name].css'
+        })
+    ],
+}
+
+16. => creo la carpeta assets/estatic para agregar las imagenes
+
+
+17. => Creamos nuestro  Json server para simular un api
+
+    17.1 => Creamos el archivo initialState.json con el contenido del gist 
+        https://gist.githubusercontent.com/gndx/d4ca4739450afaa614efe4570ac362ee/raw/65755bd20783b1fba5f4a4b40dac10a15cb724b4/initalState.json
+
+    17.2 => sudo npm install json-server -g
+
+    17.3 => json-server initialState.json
+
+18 => Especificar qué tipo de elementos son nuestras props:
+    18.1 => npm install prop-types
+
+    18.2 => Editamos carosuelItem
+
+        import React from 'react';
+        import PropTypes from 'prop-types';
+
+        const Component = ({ name, lastName, age, list }) => {
+        // ...
+        };
+
+        Component.propTypes = {
+        name: PropTypes.string,
+        lastName: PropTypes.string,
+        age: PropTypes.number,
+        list: PropTypes.array,
+        };
+
+        export default Component;
+    
+    18.3
+        podemos establecer cual es obligatorio   name: PropTypes.string.isRequired, // obligatorio
+
+19 => Interesante convertirlo en async await https://www.robinwieruch.de/react-hooks-fetch-data
+

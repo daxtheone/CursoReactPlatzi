@@ -1,5 +1,16 @@
+@import "./Vars.scss";
+@import "./Media.scss";
+
 body {
-    margin: 0;
-    background-color:blue;
-    color: white;
+    margin: 0px;
+    background-color: $main-color;
+    font-family: $theme-font;
 }
+  
+$white: white;
+
+.flex{
+    display: flex;
+    align-items: center;
+}
+

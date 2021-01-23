@@ -1,0 +1,40 @@
+$white: white;
+
+.flex{
+    display: flex;
+    align-items: center;
+}
+
+.container-carousel{
+  @extend .flex;
+  flex-direction: row;
+}
+.container-carousel__itemleft{
+  width: 30px;
+  padding: 0px 15px;
+}
+.container-carousel__itemright{
+  width: 30px;
+  padding: 0px 15px;
+}
+.container-carousel__itemleft img, .container-carousel__itemright img{
+  width: 40px;
+} 
+
+
+.carousel{
+  /*width: 100%;*/
+  overflow:hidden; /*Para que no aparezca el scroll abajo del contenedor principal*/
+  /*padding-left: 30px;*/
+  position: relative; /* Para que los elementos internos se posicionaran en relación al padre */
+}
+.carousel__container{
+  /* 
+      los div por default son wrap, se van hacia abajo el siguiente elemento, entonces con 
+      nowrap podemos hacer un infinito hacia la derecha
+  */
+  font-size: 0;
+  white-space: nowrap; 
+  margin: 70px 0px;
+  padding-bottom: 10px;  
+}
