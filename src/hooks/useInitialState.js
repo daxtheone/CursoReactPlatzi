@@ -5,9 +5,7 @@ const useInitialState = (API) => {
   useEffect(() => {
     fetch(API)
       .then((response) => response.json())
-      .then((data) => {
-        setTimeout(() => setVideos(data), 15000);
-      });
+      .then((data) => setVideos(data));
   }, []);
   return videos;
 };

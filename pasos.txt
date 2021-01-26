@@ -305,5 +305,174 @@ module.exports = {
     18.3
         podemos establecer cual es obligatorio   name: PropTypes.string.isRequired, // obligatorio
 
-19 => Interesante convertirlo en async await https://www.robinwieruch.de/react-hooks-fetch-data
 
+19 => React hooks para llamar api
+
+        import { useState, useEffect } from 'react';
+
+        const useInitialState = (API) => {
+        const [videos, setVideos] = useState([]);
+        useEffect(() => {
+            fetch(API)
+            .then((response) => response.json())
+            .then((data) => {
+                setTimeout(() => setVideos(data), 15000); //el settimeout solo para probar
+            });
+        }, []);
+        return videos;
+        };
+
+        export default useInitialState;
+
+
+20 => Interesante convertirlo en async await https://www.robinwieruch.de/react-hooks-fetch-data
+21 => si deseo usar axios https://github.com/axios/axios
+
+
+
+
+
+*************************************** REACT ROUTER  ************************************
+
+1 =>  npm install react-router-dom --save
+
+2 => Creamos la carpeta src/routes
+
+        import React from 'react';
+        import { BrowserRouter, Route } from 'react-router-dom';
+        import Home from '../containers/Home';
+
+        const App = () => (
+        <BrowserRouter>
+            <Route exact path='/' component={Home} />
+        </BrowserRouter>
+        );
+
+        export default App;
+
+3 => Cambiamos el nombre de containers/app a containers/home para que no haya choque
+
+4 => Modificamos index.js para que inicie desde el router
+
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+    //import HelloWorld from './components/HelloWorld';
+    import App from './routes/App';
+
+    ReactDOM.render(<App />, document.getElementById('app'));
+
+5=> Podemos incorporar mas rutas
+
+    import React from 'react';
+    import { BrowserRouter, Route } from 'react-router-dom';
+    import Home from '../containers/Home';
+    import Login from '../containers/Login';
+
+    const App = () => (
+    <BrowserRouter>
+        <Route exact path='/' component={Home} />
+        <Route exact path='/login' component={Login} />
+    </BrowserRouter>
+    );
+
+    export default App;
+
+
+    5.2 => Pero para que se vea hay que actualizar el webpack  =>devServer
+        const path = require('path');
+        const HtmlWebPackPlugin = require('html-webpack-plugin');
+        const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+        module.exports = {
+            entry: './src/index.js',
+            output: {
+                path: path.resolve(__dirname,'dist'),
+                filename: 'bundle.js'
+            },
+            resolve: {
+                extensions: ['.js','.jsx']
+            },
+            module: {
+                rules: [
+                    {
+                        test: /\.(js|jsx)$/,
+                        exclude: /node_modules/,
+                        use: {
+                            loader: "babel-loader"
+                        }
+                    },
+                    {
+                        test: /\.html$/,
+                        use: [
+                            {
+                                loader: 'html-loader'
+                            }
+                        ]
+                    },
+                    {
+                        test: /\.(s*)css$/,
+                        use: [
+                            {
+                                loader: MiniCssExtractPlugin.loader,
+                            },
+                            'css-loader',
+                            'sass-loader'
+                        ]
+                    },
+                    {  
+                    test: /\.(png|gif|jpg|jpeg)/,
+                    use:[
+                        {
+                            'loader': 'file-loader',
+                            options: {
+                                name: 'assets/[hash].[ext]'
+                            }
+                        }
+                    ]
+                    }
+                ]
+            },
+            devServer: {
+                historyApiFallback: true,
+            },
+            plugins: [
+                new HtmlWebPackPlugin({
+                    template: './public/index.html',
+                    filename: './index.html'
+                }),
+                new MiniCssExtractPlugin({
+                    filename: 'assets/[name].css'
+                })
+            ],
+        }
+
+6=> Agrego Switch a mi app.js (de router)
+
+
+    import React from 'react';
+    import { BrowserRouter, Switch, Route } from 'react-router-dom';
+    import Home from '../containers/Home';
+    import Login from '../containers/Login';
+    import Register from '../containers/Register';
+
+    const App = () => (
+    <BrowserRouter>
+        <Switch>
+        <Route exact path='/' component={Home} />
+        <Route exact path='/login' component={Login} />
+        <Route exact path='/register' component={Register} />
+        </Switch>
+    </BrowserRouter>
+    );
+
+    export default App;
+
+7 => React.fragment
+    <></>
+
+8 => Para hacer links
+
+    import { Link } from 'react-router-dom';
+    <Link to='/'>
+      <img className='header__img' src={logo} alt='logo-platzi' />
+    </Link>
