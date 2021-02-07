@@ -476,3 +476,28 @@ module.exports = {
     <Link to='/'>
       <img className='header__img' src={logo} alt='logo-platzi' />
     </Link>
+
+
+
+ ****************** REDUX ********************************
+
+ 1 => npm install redux react-redux --save
+ 2 => Creamos 2 carpetas actions y reducers  
+      Dentro de ellas creamos sus archivos index.js
+
+ 3 => Modifico el archivo index.js de la aplicacion
+
+        import React from 'react';
+        import ReactDOM from 'react-dom';
+        import { Provider } from 'react-redux';
+        import { createStore } from 'redux';
+        //import HelloWorld from './components/HelloWorld';
+        import App from './routes/App';
+
+        ReactDOM.render(
+        <Provider>
+            <App />
+        </Provider>
+        ,
+        document.getElementById('app'),
+        );

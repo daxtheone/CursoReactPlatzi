@@ -1,22 +1,33 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { setFavorite } from '../actions';
 import '../assets/styles/components/CarouselItem.scss';
 import playIcon from '../assets/static/play-icon.png';
 import plusIcon from '../assets/static/plus-icon.png';
 
-const CarouselItem = ({ cover, title, year, contentRating, duration }) => (
-  <div className='carousel-item'>
-    <img className='carousel-item__img' src={cover} alt={title} />
-    <div className='carousel-item__details'>
-      <div>
-        <img className='carousel-item__details--img' src={playIcon} alt='play' />
-        <img className='carousel-item__details--img' src={plusIcon} alt='plus' />
+const CarouselItem = (props) => {
+  const { id, cover, title, year, contentRating, duration } = props;
+  const handleSetFavorites = () => {
+    props.setFavorite({
+      id, cover, title, year, contentRating, duration,
+    });
+  };
+  return (
+    <div className='carousel-item'>
+      <img className='carousel-item__img' src={cover} alt={title} />
+      <div className='carousel-item__details'>
+        <div>
+          <img className='carousel-item__details--img' src={playIcon} alt='play' />
+          <img className='carousel-item__details--img' src={plusIcon} alt='plus' onClick={handleSetFavorites} />
+        </div>
+        <p className='carousel-item__details--title'>{title}</p>
+        <p className='carousel-item__details--subtitle'>{`${year} ${contentRating} ${duration} Minutos`}</p>
       </div>
-      <p className='carousel-item__details--title'>{title}</p>
-      <p className='carousel-item__details--subtitle'>{`${year} ${contentRating} ${duration} Minutos`}</p>
     </div>
-  </div>
-);
+  );
+
+};
 
 CarouselItem.propTypes = {
   cover: PropTypes.string,
@@ -26,4 +37,8 @@ CarouselItem.propTypes = {
   duration: PropTypes.number,
 };
 
-export default CarouselItem;
+const mapDispatchToProps = {
+  setFavorite,
+};
+//export default CarouselItem;
+export default connect(null, mapDispatchToProps)(CarouselItem);

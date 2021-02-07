@@ -3,7 +3,7 @@ import Header from './Header';
 import Footer from './Footer';
 
 const Layout = ({ children }) => (
-  <div clasName='APP'>
+  <div className='APP'>
     <Header />
     {children}
     <Footer />
