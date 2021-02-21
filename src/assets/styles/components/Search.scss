@@ -12,6 +12,11 @@ $white: white;
   height: 150px;
   /*min-height: calc(100vh - 200px);*/
 }
+
+.main .isHome {
+  width: 70%;
+}
+
 .main__title{
   color:$white;
   font-size: 25px;

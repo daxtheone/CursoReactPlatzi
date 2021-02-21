@@ -5,6 +5,7 @@ import Search from '../components/Search';
 import Categories from '../components/Categories';
 import Carousel from '../components/Carousel';
 import CarouselItem from '../components/CarouselItem';
+import Header from '../components/Header';
 //import useInitialState from '../hooks/useInitialState';
 import '../assets/styles/App.scss';
 
@@ -13,13 +14,22 @@ const Home = ({ mylist, trends, originals }) => {
   //const videos = useInitialState(API);
   return (
     <>
-      <Search />
+      <Header />
+      <Search isHome />
       {
         mylist !== undefined && mylist.length > 0 &&
         (
           <Categories title='Mi Lista'>
             <Carousel>
-              <CarouselItem />
+              {
+                mylist.map((item) => (
+                  <CarouselItem
+                    key={item.id}
+                    {...item}
+                    isList
+                  />
+                ))
+              }
             </Carousel>
           </Categories>
         )
