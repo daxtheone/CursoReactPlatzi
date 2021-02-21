@@ -35,6 +35,29 @@ const reducer = (state, action) => {
         state.originals.find((item) => item.id === Number(action.payload)) ||
         [],
       };
+    case 'SET_SEARCH':
+      return {
+        ...state,
+        search: action.payload.inputsearch,
+        mylistSearch: state.mylist.filter((item) => {
+          if (action.payload.inputsearch.length > 2) {
+            return item.title.includes(action.payload.inputsearch);
+          }
+          return [];
+        }),
+        originalsSearch: state.originals.filter((item) => {
+          if (action.payload.inputsearch.length > 2) {
+            return item.title.includes(action.payload.inputsearch);
+          }
+          return [];
+        }),
+        trendsSearch: state.trends.filter((item) => {
+          if (action.payload.inputsearch.length > 2) {
+            return item.title.includes(action.payload.inputsearch);
+          }
+          return [];
+        }),
+      };
     default:
       return state;
   }

@@ -8,6 +8,7 @@ import iconTwitter from '../assets/static/twitter_icon.png';
 import Header from '../components/Header';
 
 const Login = (props) => {
+  console.log(props);
   const [form, setValues] = useState({
     email: '',
   });
